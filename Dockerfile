@@ -1,0 +1,15 @@
+FROM python:slim-bookworm
+
+RUN apt update && apt install -y --no-install-recommends git build-essential cmake && rm -rf /var/lib/apt/lists/* \
+    && pip install --no-cache-dir scikit-build && pip install torch --no-cache-dir --index-url https://download.pytorch.org/whl/cpu \
+    && pip install --no-cache-dir httpx loguru
+
+WORKDIR /home/sq
+RUN git clone https://github.com/ScQ-Cloud/pyquafu.git && cd pyquafu && \
+    pip install --no-cache-dir -r requirements.txt && python setup.py install \
+    && cd .. && rm -rf pyquafu
+
+WORKDIR /home/sq/quafu-agent-py
+COPY . .
+
+ENTRYPOINT [ "python3", "quafu-agent.py" ]
