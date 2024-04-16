@@ -7,17 +7,18 @@ from quafu import simulate
 from loguru import logger
 import os
 
-QUAFU_ADDR = "http://120.46.209.71/qbackend/"
+QUAFU_IP = "120.46.209.71"
+SYSTEM_ID = "7"
 
 
 def fetch_task(request_time=1):
     time.sleep(float(request_time))
     try:
         res = httpx.get(
-            url=QUAFU_ADDR + "scq_task/?system_id=7", timeout=10.0).json()
+            url=QUAFU_ADDR + f"scq_task/?system_id={SYSTEM_ID}", timeout=10.0).json()
     except:
         logger.warning(f"Request {QUAFU_ADDR} failed")
-        pass
+        res = None
 
     if res is None:
         return
@@ -55,7 +56,7 @@ def fetch_task(request_time=1):
         "measure": measure,
         "raw": str(result).replace("\'", "\""),
         "res": str(result).replace("\'", "\""),
-        "server": 7,
+        "server": SYSTEM_ID,
     }
 
     try:
@@ -72,11 +73,20 @@ if __name__ == '__main__':
                format="{time} {level} {message}", level="INFO")
     logger.add(sys.stderr, format="{time} {level} {message}", level="WARNING")
 
-    if "QUAFU_ADDR" in os.environ:
-        QUAFU_ADDR = os.environ["QUAFU_ADDR"]
+    if "QUAFU_IP" in os.environ:
+        QUAFU_IP = os.environ["QUAFU_IP"]
     else:
         logger.info(f"QUAFU_ADDR not found in env, using default address")
 
-    logger.info("Quafu address: " + QUAFU_ADDR)
+    if "SYSTEM_ID" in os.environ:
+        SYSTEM_ID = os.environ["SYSTEM_ID"]
+    else:
+        logger.info(f"SYSTEM_ID not found in env, using default system id")
+
+    logger.info("Quafu IP: " + QUAFU_IP)
+    logger.info("System ID: " + SYSTEM_ID)
+
+    QUAFU_ADDR = f"http://{QUAFU_IP}/qbackend/"
+
     while True:
         fetch_task(request_time=1)
