@@ -12,4 +12,6 @@ RUN git clone https://github.com/ScQ-Cloud/pyquafu.git && cd pyquafu && \
 WORKDIR /home/sq/quafu-agent-py
 COPY . .
 
+ENV QUAFU_ADDR="http://120.46.209.71/qbackend/"
+
 ENTRYPOINT [ "python3", "quafu-agent.py" ]

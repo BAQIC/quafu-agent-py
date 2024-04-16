@@ -5,6 +5,7 @@ import time
 from quafu.circuits.quantum_circuit import QuantumCircuit
 from quafu import simulate
 from loguru import logger
+import os
 
 QUAFU_ADDR = "http://120.46.209.71/qbackend/"
 
@@ -70,6 +71,11 @@ if __name__ == '__main__':
     logger.add('log/requests.log',
                format="{time} {level} {message}", level="INFO")
     logger.add(sys.stderr, format="{time} {level} {message}", level="WARNING")
+
+    if "QUAFU_ADDR" in os.environ:
+        QUAFU_ADDR = os.environ["QUAFU_ADDR"]
+    else:
+        logger.info(f"QUAFU_ADDR not found in env, using default address")
 
     logger.info("Quafu address: " + QUAFU_ADDR)
     while True:
