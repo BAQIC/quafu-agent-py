@@ -31,6 +31,8 @@ jobs:
             image:  ghcr.io/baqic/quafu-agent-py
           - dockerfile: ./Dockerfile.dev
             image: ghcr.io/baqic/quafu-agent-py-dev
+          - dockerfile: ./Dockerfile.patch
+            image: ghcr.io/baqic/quafu-agent-py-patch
     permissions:
       contents: read
       packages: write
