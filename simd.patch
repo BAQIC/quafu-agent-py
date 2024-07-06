@@ -1,0 +1,17 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index fa14b6d..e478ec7 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -68,9 +68,9 @@ if(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" OR CMAKE_HOST_SYSTEM_PROCESSOR
+ 		add_compile_definitions(USE_SIMD)
+ 	else()
+ 		if (NOT CMAKE_OSX_ARCHITECTURES STREQUAL "arm64")
+-			list ( APPEND PRJ_COMPILE_OPTIONS "-mfma;-mavx2")
+-			list ( APPEND PRJ_COMPILE_OPTIONS -ffast-math)
+-			add_compile_definitions(USE_SIMD)
++			# list ( APPEND PRJ_COMPILE_OPTIONS "-mfma;-mavx2")
++			# list ( APPEND PRJ_COMPILE_OPTIONS -ffast-math)
++			# add_compile_definitions(USE_SIMD)
+ 		endif()
+ 	endif()
+ endif()
